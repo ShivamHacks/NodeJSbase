@@ -1,0 +1,3 @@
+{
+	"body": "<h1>New User Created</h1><span>username:%uname%</span><br><span>email:%email%</span><br><span>password:%pswrd%<span><p>Confirm: <a href=http://10.0.0.7:3000/confirm?uname=%uname%&email=%email%&token=%token%>here</a></p>"
+}
