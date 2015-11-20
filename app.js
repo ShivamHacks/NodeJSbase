@@ -1,6 +1,7 @@
 // ********************************************* APP START
 
 var express = require('express');
+var path = require('path');
 var app = express();
 
 var server = require('http').Server(app);
@@ -9,11 +10,6 @@ app.set('port', port);
 server.listen(port, function(){
   console.log('listening on: ' + this.address().port);
 });
-
-
-// ********************************************* API START
-
-// ********************************************* AWS START
 
 var AWS = require('aws-sdk');
 AWS.config.loadFromPath('./config/aws.json');
@@ -25,9 +21,46 @@ var transporter = nodemailer.createTransport({
   auth: require('./config/email.json')
 });
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hjs');
+app.use(express.static(path.join(__dirname, 'public')));
+
+var fs = require('fs');
+var s3 = new AWS.S3();
+
+app.post('/add', multipartMiddleware, function (req, res) {
+  var imagePath = req.files.image.path;
+  var imageName = req.body.name;
+  var img = fs.readFileSync(imagePath);
+  var params = {
+    Bucket: 'userstest', 
+    Key: imageName, 
+    Body: img,
+    ContentType: img.mimetype,
+    ACL: 'public-read'
+  };
+  s3.upload(params, function(err, data) {
+    console.log(err, data);
+    res.send("<img src='" + data.Location + "'>");
+  });
+});
+
+app.get('/newuser', function (req, res, next) {
+  res.render('add', {});
+});
+
 var shortid = require('shortid');
 
-require('./users')(app, dynamodb, shortid, transporter);
+require('./users')(app, dynamodb, s3, fs, shortid, transporter, multipartMiddleware);
+
+
+
+
+
+
 
 
 // *********************************** FUNCTIONS START
@@ -62,7 +95,7 @@ function mobilePush(to, data) {
     uri : 'https://gcm-http.googleapis.com/gcm/send',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization':'key=AIzaSyCIN38amip8bXJYMP7iIc_DKafYuIDw6Wg'
+      'Authorization':'key=' + require('./config/gcm.json')
     },
     body : JSON.stringify({
       "to" : to,

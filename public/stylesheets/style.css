@@ -1,0 +1,22 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+textarea {
+    resize: none;
+}
+
+a {
+	text-decoration: none;
+	color:inherit;
+}
+
+img {
+	display:block;
+    margin:auto;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel='stylesheet' href='../stylesheets/bootstrap.css' />
+	<link rel='stylesheet' href='../stylesheets/style.css' />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+	<!-- HEADER -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<h2 style="display:inline-block"><a href="/">Home</a></h2>
+				<h2 style="display:inline-block">&nbsp;&nbsp;|&nbsp;&nbsp;</h2>
+				<h2 style="display:inline-block"><a href="/articles">Articles</a></h2>
+			</div>
+		</div>
+	</div><hr>
+
+	<div class="container">
+		<div class="row">
+
+			<div class="col-sm-3"></div>
+
+			<div class="col-sm-6">
+				<h1 class="text-center">{{title}}</h1><hr>
+				<p><i>by {{author}} in {{category}}</i></p>
+				<p><i>{{publishDate}}</i><p>
+				<img src={{image}} class="img-responsive" alt="article-image"><hr>
+				<p>{{{text}}}</p>
+				<br>
+				<span>Tags: </span>
+				{{#tags}}
+					<a href=tags/{{.}}><button type="button" class="btn btn-default btn-xs">{{.}}</button></a>
+				{{/tags}}
+			</div>
+
+			<div class="col-sm-3"></div>
+
+		</div>
+	</div>
+
+	<!-- FOOTER -->
+	<hr><div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<h2><a href="/">The Clarion</a></h2>
+				<p><i>The School Newspaper of East Brunswick High School</i></p>
+			</div>
+		</div>
+	</div><br>
+
+
+	<script type="text/javascript" src="../javascripts/jquery.js"></script>
+	<script type="text/javascript" src="../javascripts/bootstrap.js"></script>
+
+</body>
+</html>
